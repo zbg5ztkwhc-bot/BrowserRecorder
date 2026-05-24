@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Outlook Screen Recorder | Sign In & Record</title>
+    <!-- Font Awesome Icons (free) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            min-height: 100vh;
+            padding: 24px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .app-container {
+            max-width: 1400px;
+            width: 100%;
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(2px);
+            border-radius: 2rem;
+            padding: 1.8rem;
+            box-shadow: 0 20px 35px -10px rgba(0,0,0,0.4);
+            border: 1px solid rgba(255,255,255,0.15);
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 0.5rem;
+        }
+
+        h1 i {
+            color: #3b82f6;
+            font-size: 2rem;
+        }
+
+        .sub {
+            color: #94a3b8;
+            margin-bottom: 2rem;
+            border-left: 3px solid #3b82f6;
+            padding-left: 12px;
+        }
+
+        /* Two column layout */
+        .dashboard {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+        }
+
+        .left-panel {
+            flex: 1.2;
+            min-width: 280px;
+            background: rgba(15, 23, 42, 0.7);
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .right-panel {
+            flex: 2.5;
+            min-width: 480px;
+            background: rgba(15, 23, 42, 0.5);
+            border-radius: 1.5rem;
+            padding: 1.2rem;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #e2e8f0;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid #334155;
+            padding-bottom: 8px;
+        }
+
+        /* Outlook iframe box */
+        .outlook-box {
+            background: #ffffff;
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            height: 550px;
+            border: 1px solid #2d3a5e;
+            transition: all 0.2s;
+        }
+
+        .outlook-box iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* video preview */
+        .video-preview {
+            background: #0a0f1c;
+            border-radius: 1rem;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+            border: 1px solid #334155;
+        }
+
+        .preview-header {
+            background: #1e293b;
+            padding: 10px 16px;
+            font-size: 0.85rem;
+            color: #cbd5e1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #334155;
+        }
+
+        #recordingVideo {
+            width: 100%;
+            background: black;
+            display: block;
+            border-radius: 0;
+            max-height: 340px;
+            object-fit: contain;
+        }
+
+        /* controls */
+        .record-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin: 18px 0 20px 0;
+            align-items: center;
+        }
+
+        .size-selector {
+            background: #0f172a;
+            padding: 8px 15px;
+            border-radius: 60px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .size-selector label {
+            color: #cbd5e6;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        select, button {
+            background: #1e293b;
+            border: 1px solid #475569;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 40px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: 0.2s;
+        }
+
+        select:hover, button:hover {
+            background: #2d3a5e;
+            border-color: #3b82f6;
+        }
+
+        .btn-primary {
+            background: #3b82f6;
+            border-color: #3b82f6;
+            color: white;
+            box-shadow: 0 2px 6px rgba(59,130,246,0.3);
+        }
+
+        .btn-primary:hover {
+            background: #2563eb;
+            transform: scale(1.02);
+        }
+
+        .btn-danger {
+            background: #dc2626;
+            border-color: #dc2626;
+        }
+
+        .btn-danger:hover {
+            background: #b91c1c;
+        }
+
+        .btn-success {
+            background: #10b981;
+            border-color: #10b981;
+        }
+
+        .btn-success:hover {
+            background: #059669;
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .info-status {
+            background: #0f172a;
+            border-radius: 40px;
+            padding: 8px 15px;
+            font-size: 0.8rem;
+            color: #94a3b8;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status-badge {
+            background: #334155;
+            border-radius: 30px;
+            padding: 5px 12px;
+            font-size: 0.75rem;
+        }
+
+        .download-area {
+            margin-top: 20px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        hr {
+            border-color: #334155;
+            margin: 15px 0;
+        }
+
+        .footer-note {
+            font-size: 0.7rem;
+            text-align: center;
+            margin-top: 1.5rem;
+            color: #5b6e8c;
+        }
+        i {
+            margin-right: 6px;
+        }
+        @media (max-width: 780px) {
+            .right-panel {
+                min-width: auto;
+            }
+            .dashboard {
+                flex-direction: column;
+            }
+            .outlook-box {
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <h1><i class="fab fa-microsoft"></i> Outlook Portal + Screen Recorder</h1>
+    <div class="sub">Sign in to your Outlook account on the left | Capture screen, choose output size, record and download</div>
+
+    <div class="dashboard">
+        <!-- LEFT PANEL: Outlook Sign-in Iframe -->
+        <div class="left-panel">
+            <div class="card-title"><i class="fas fa-envelope"></i> Microsoft Outlook Login</div>
+            <div class="outlook-box">
+                <iframe 
+                    id="outlookIframe"
+                    src="https://outlook.live.com/mail/0/inbox"
+                    title="Outlook Sign In"
+                    sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-modals allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation allow-storage-access-by-user-activation"
+                    allow="camera; microphone; clipboard-read; clipboard-write; fullscreen">
+                </iframe>
+            </div>
+            <div class="info-status" style="margin-top: 12px;">
+                <i class="fas fa-shield-alt"></i> Use your Microsoft credentials to sign in. If blocked, click "Allow" for pop-ups.
+            </div>
+        </div>
+
+        <!-- RIGHT PANEL: Recorder & Video Options -->
+        <div class="right-panel">
+            <div class="card-title"><i class="fas fa-video"></i> Screen Recorder Studio</div>
+
+            <!-- video preview element -->
+            <div class="video-preview">
+                <div class="preview-header">
+                    <span><i class="fas fa-eye"></i> Live Preview</span>
+                    <span id="recordingStatus" class="status-badge"><i class="fas fa-circle"></i> Not Recording</span>
+                </div>
+                <video id="recordingVideo" autoplay muted playsinline></video>
+            </div>
+
+            <!-- Recording quality / size output options -->
+            <div class="record-controls">
+                <div class="size-selector">
+                    <label><i class="fas fa-expand-alt"></i> Output Size:</label>
+                    <select id="videoSizeSelect">
+                        <option value="1280x720">HD (1280x720) 16:9</option>
+                        <option value="854x480">WVGA (854x480)</option>
+                        <option value="1920x1080" selected>Full HD (1920x1080)</option>
+                        <option value="640x480">VGA (640x480) 4:3</option>
+                        <option value="1024x768">XGA (1024x768)</option>
+                        <option value="custom">Custom (Prompt dimensions)</option>
+                    </select>
+                </div>
+                <div>
+                    <button id="startRecordBtn" class="btn-primary"><i class="fas fa-record-vinyl"></i> Start Recording</button>
+                    <button id="stopRecordBtn" class="btn-danger" disabled><i class="fas fa-stop"></i> Stop</button>
+                </div>
+                <div id="downloadGroup" class="download-area">
+                    <button id="downloadVideoBtn" class="btn-success" disabled><i class="fas fa-download"></i> Download Video</button>
+                </div>
+            </div>
+            
+            <!-- Additional info: recording state, custom dimensions note -->
+            <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin: 10px 0;">
+                <div class="info-status"><i class="fas fa-info-circle"></i> Screen capture includes tab, window or entire screen (your choice)</div>
+                <div class="info-status"><i class="fas fa-chalkboard-user"></i> During record, choose any area/browser tab</div>
+            </div>
+            <hr>
+            <div><i class="fas fa-lightbulb"></i> <strong>Pro Tip:</strong> You can sign into Outlook in the left iframe, then start recording to capture your emails, calendar, or any workflow. After stop, download the video in desired resolution (re-encoded).</div>
+            <div class="footer-note">
+                <i class="fab fa-html5"></i> Uses MediaRecorder API + Canvas resize (video output dimensions). For recording, browser will ask for screen permission. 
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    (function() {
+        // DOM elements
+        const videoPreview = document.getElementById('recordingVideo');
+        const startBtn = document.getElementById('startRecordBtn');
+        const stopBtn = document.getElementById('stopRecordBtn');
+        const downloadBtn = document.getElementById('downloadVideoBtn');
+        const sizeSelect = document.getElementById('videoSizeSelect');
+        const recordingStatusSpan = document.getElementById('recordingStatus');
+        
+        // Recording state variables
+        let mediaStream = null;          // screen capture stream
+        let mediaRecorder = null;
+        let recordedChunks = [];
+        let isRecording = false;
+        
+        // For final resized blob output (canvas resizing)
+        let finalRecordedBlob = null;     // stores the final encoded video blob (resized)
+        
+        // Helper: Update UI based on recording state
+        function updateUIForRecording(recordingActive) {
+            if (recordingActive) {
+                startBtn.disabled = true;
+                stopBtn.disabled = false;
+                downloadBtn.disabled = true;
+                recordingStatusSpan.innerHTML = '<i class="fas fa-circle" style="color:#ef4444;"></i> Recording LIVE';
+                recordingStatusSpan.style.background = '#450a0a';
+            } else {
+                startBtn.disabled = false;
+                stopBtn.disabled = true;
+                recordingStatusSpan.innerHTML = '<i class="fas fa-circle"></i> Not Recording';
+                recordingStatusSpan.style.background = '#334155';
+                // download button enabled only if we have a final blob
+                downloadBtn.disabled = (finalRecordedBlob === null);
+            }
+        }
+        
+        // Reset captured chunks after recording ends
+        function resetChunks() {
+            recordedChunks = [];
+            if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+                try { mediaRecorder.stop(); } catch(e) {}
+            }
+        }
+        
+        // Stop tracks and release stream
+        function stopScreenCapture() {
+            if (mediaStream) {
+                mediaStream.getTracks().forEach(track => {
+                    if (track.readyState === 'live') track.stop();
+                });
+                mediaStream = null;
+            }
+            if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+                mediaRecorder.stop();
+            }
+        }
+        
+        // Resize video blob using canvas (async) to desired dimensions
+        async function resizeVideoBlob(blob, targetWidth, targetHeight) {
+            return new Promise((resolve, reject) => {
+                const video = document.createElement('video');
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                video.preload = 'metadata';
+                video.src = URL.createObjectURL(blob);
+                video.muted = true;
+                video.playsInline = true;
+                
+                video.onloadedmetadata = () => {
+                    // set canvas dimensions to target size
+                    canvas.width = targetWidth;
+                    canvas.height = targetHeight;
+                    video.currentTime = 0;
+                };
+                
+                video.onseeked = () => {
+                    // draw first frame as base for initializing? Actually we need to encode full video frames.
+                    // To properly resize whole video we need to capture frame by frame over time.
+                    // The robust method: use CanvasCapture & MediaRecoder again? But that's heavy. 
+                    // For simplicity and demonstration: We'll use a more reliable approach:
+                    // We will re-encode the whole video by playing back the original video at normal speed
+                    // and capturing frames into a new MediaStream from canvas at specific frame rate.
+                    // However, for demo elegance and to avoid complexity, we will instead apply resize using
+                    // OffscreenCanvas trick + MediaRecorder on canvas stream. Let's implement correct resizing.
+                    // Implementation: create a canvas stream that draws original video frames resized.
+                    const stream = canvas.captureStream(30); // 30fps
+                    const recorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
+                    const resizedChunks = [];
+                    
+                    recorder.ondataavailable = (e) => {
+                        if (e.data.size > 0) resizedChunks.push(e.data);
+                    };
+                    
+                    recorder.onstop = () => {
+                        const finalBlob = new Blob(resizedChunks, { type: 'video/webm' });
+                        URL.revokeObjectURL(video.src);
+                        resolve(finalBlob);
+                    };
+                    
+                    recorder.start(100);
+                    
+                    // Play original video and draw frames onto canvas resized.
+                    video.play();
+                    const interval = setInterval(() => {
+                        if (!video.paused && !video.ended && video.readyState >= 2) {
+                            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                        }
+                        if (video.ended) {
+                            clearInterval(interval);
+                            recorder.stop();
+                        }
+                    }, 33); // ~30fps drawing
+                    
+                    video.onended = () => {
+                        // ensure cleanup
+                        setTimeout(() => {
+                            if (recorder.state !== 'inactive') recorder.stop();
+                        }, 100);
+                    };
+                };
+                
+                video.onerror = (err) => {
+                    URL.revokeObjectURL(video.src);
+                    reject(new Error("Video load error: " + err));
+                };
+            });
+        }
+        
+        // Process recorded chunks -> final blob -> apply resize based on user selected dimensions
+        async function processAndResizeRecording(originalChunks) {
+            if (!originalChunks || originalChunks.length === 0) {
+                console.warn("No data recorded");
+                return null;
+            }
+            const originalBlob = new Blob(originalChunks, { type: 'video/webm' });
+            // Get target dimensions from dropdown
+            let sizeVal = sizeSelect.value;
+            let width, height;
+            if (sizeVal === 'custom') {
+                let customDim = prompt("Enter custom video output dimensions (width x height)", "1280x720");
+                if (customDim && customDim.includes('x')) {
+                    let parts = customDim.split('x');
+                    width = parseInt(parts[0], 10);
+                    height = parseInt(parts[1], 10);
+                    if (isNaN(width) || isNaN(height) || width <= 0 || height <= 0) {
+                        alert("Invalid dimensions, using 1280x720");
+                        width = 1280; height = 720;
+                    }
+                } else {
+                    width = 1280; height = 720;
+                }
+            } else {
+                let dims = sizeVal.split('x');
+                width = parseInt(dims[0], 10);
+                height = parseInt(dims[1], 10);
+            }
+            
+            // Clamp to reasonable values
+            width = Math.min(width, 3840);
+            height = Math.min(height, 2160);
+            if (width < 160) width = 640;
+            if (height < 120) height = 480;
+            
+            try {
+                // Show processing indicator temporarily
+                recordingStatusSpan.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Resizing video...';
+                const resizedBlob = await resizeVideoBlob(originalBlob, width, height);
+                recordingStatusSpan.innerHTML = '<i class="fas fa-check-circle"></i> Ready to download';
+                setTimeout(() => {
+                    if (!isRecording) recordingStatusSpan.innerHTML = '<i class="fas fa-circle"></i> Not Recording';
+                }, 2000);
+                return resizedBlob;
+            } catch (err) {
+                console.error("Resize failed: ", err);
+                alert("Resize error, falling back to original recording dimensions.");
+                return originalBlob;
+            }
+        }
+        
+        // called when recording stops, processes the recorded chunks into final resized blob
+        async finalizeRecording() {
+            if (recordedChunks.length === 0) {
+                alert("No recording data captured.");
+                updateUIForRecording(false);
+                return;
+            }
+            
+            // Show status
+            recordingStatusSpan.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Processing video, please wait...';
+            const finalProcessedBlob = await processAndResizeRecording(recordedChunks);
+            if (finalProcessedBlob) {
+                finalRecordedBlob = finalProcessedBlob;
+                downloadBtn.disabled = false;
+                // create a preview of the final video? we can also set video src to the resized blob for preview
+                const previewUrl = URL.createObjectURL(finalProcessedBlob);
+                videoPreview.src = previewUrl;
+                videoPreview.muted = false;
+                videoPreview.controls = true;
+                videoPreview.onloadeddata = () => {
+                    URL.revokeObjectURL(previewUrl);
+                };
+            } else {
+                finalRecordedBlob = null;
+                downloadBtn.disabled = true;
+            }
+            
+            // reset chunks array
+            recordedChunks = [];
+            updateUIForRecording(false);
+        }
+        
+        // Start screen recording
+        async function startRecording() {
+            if (isRecording) {
+                alert("Recording already in progress. Stop it first.");
+                return;
+            }
+            
+            // Reset previous final blob and disable download
+            finalRecordedBlob = null;
+            downloadBtn.disabled = true;
+            videoPreview.src = "";
+            videoPreview.controls = false;
+            recordedChunks = [];
+            
+            try {
+                // Get display media (screen/window/tab)
+                const displayStream = await navigator.mediaDevices.getDisplayMedia({
+                    video: {
+                        cursor: "always",
+                        frameRate: { ideal: 30, max: 30 }
+                    },
+                    audio: false,   // optional: capture system audio? Not needed for demo
+                });
+                
+                // We also can capture audio? For simplicity, just video.
+                mediaStream = displayStream;
+                
+                // Attach to preview element (live preview)
+                videoPreview.srcObject = mediaStream;
+                videoPreview.muted = true;
+                videoPreview.controls = false;
+                
+                // Initialize MediaRecorder (webm format)
+                let mimeType = '';
+                const codecs = ['video/webm', 'video/webm;codecs=vp9', 'video/webm;codecs=vp8'];
+                for (const codec of codecs) {
+                    if (MediaRecorder.isTypeSupported(codec)) {
+                        mimeType = codec;
+                        break;
+                    }
+                }
+                mediaRecorder = new MediaRecorder(mediaStream, {
+                    mimeType: mimeType || 'video/webm',
+                    videoBitsPerSecond: 2500000  // 2.5 Mbps good quality
+                });
+                
+                mediaRecorder.ondataavailable = (event) => {
+                    if (event.data && event.data.size > 0) {
+                        recordedChunks.push(event.data);
+                    }
+                };
+                
+                mediaRecorder.onstop = async () => {
+                    // when user stops, finalize recording (resize and generate output)
+                    if (mediaStream) {
+                        mediaStream.getTracks().forEach(t => t.stop());
+                        mediaStream = null;
+                    }
+                    isRecording = false;
+                    // process recorded chunks -> produce resized video
+                    await finalizeRecording();
+                    // clear preview from stream
+                    if (videoPreview.srcObject) {
+                        videoPreview.srcObject = null;
+                    }
+                };
+                
+                mediaRecorder.start(1000); // collect data every second
+                isRecording = true;
+                updateUIForRecording(true);
+                
+                // when user stops sharing via browser UI, we must handle
+                displayStream.getVideoTracks()[0].onended = () => {
+                    if (isRecording && mediaRecorder && mediaRecorder.state !== 'inactive') {
+                        mediaRecorder.stop();
+                    }
+                };
+                
+            } catch (err) {
+                console.error("Screen capture error: ", err);
+                alert("Could not start screen recording. Ensure you grant screen capture permission.\n" + err.message);
+                updateUIForRecording(false);
+                if (mediaStream) {
+                    mediaStream.getTracks().forEach(t => t.stop());
+                    mediaStream = null;
+                }
+            }
+        }
+        
+        // Stop recording manually
+        function stopRecording() {
+            if (!isRecording) {
+                alert("No active recording.");
+                return;
+            }
+            if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+                mediaRecorder.stop();
+            } else {
+                // fallback stop
+                if (mediaStream) {
+                    mediaStream.getTracks().forEach(t => t.stop());
+                }
+                isRecording = false;
+                updateUIForRecording(false);
+                if (recordedChunks.length) finalizeRecording();
+                else updateUIForRecording(false);
+            }
+        }
+        
+        // Download final resized video blob
+        function downloadVideo() {
+            if (!finalRecordedBlob) {
+                alert("No recorded video available. Please record something first.");
+                return;
+            }
+            const url = URL.createObjectURL(finalRecordedBlob);
+            const a = document.createElement('a');
+            a.href = url;
+            let sizeInfo = sizeSelect.value;
+            if (sizeSelect.value === 'custom') sizeInfo = 'custom';
+            a.download = `outlook_recording_${sizeInfo}_${new Date().toISOString().slice(0,19)}.webm`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+        
+        // Event binding
+        startBtn.addEventListener('click', startRecording);
+        stopBtn.addEventListener('click', stopRecording);
+        downloadBtn.addEventListener('click', downloadVideo);
+        
+        // optional: note for iframe cross-origin limitations (Outlook iframe is on external domain, but recording works because screen capture includes everything)
+        // Provide clean initial UI.
+        updateUIForRecording(false);
+        
+        // Disable autoplay policies? Not needed.
+        console.log("App ready: sign in to outlook in the iframe, start screen recording, choose any output resolution");
+    })();
+</script>
+</body>
+</html>
