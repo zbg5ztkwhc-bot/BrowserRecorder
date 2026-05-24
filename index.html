@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Outlook Screen Recorder | Professional Recording Tool</title>
+    <title>Outlook Screen Recorder - Fixed Version</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * {
@@ -17,20 +17,15 @@
             background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
             min-height: 100vh;
             padding: 24px 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
         }
 
         .app-container {
-            max-width: 1400px;
-            width: 100%;
+            max-width: 1300px;
+            margin: 0 auto;
             background: rgba(255,255,255,0.08);
-            backdrop-filter: blur(2px);
             border-radius: 2rem;
             padding: 1.8rem;
             box-shadow: 0 20px 35px -10px rgba(0,0,0,0.4);
-            border: 1px solid rgba(255,255,255,0.15);
         }
 
         h1 {
@@ -41,94 +36,81 @@
             align-items: center;
             gap: 12px;
             margin-bottom: 0.5rem;
+            flex-wrap: wrap;
         }
 
-        h1 i {
-            color: #3b82f6;
-            font-size: 2rem;
+        .compatibility-badge {
+            background: #ef4444;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            display: inline-block;
         }
 
-        .sub {
-            color: #94a3b8;
-            margin-bottom: 2rem;
+        .compatibility-badge.green {
+            background: #10b981;
+        }
+
+        .browser-check {
+            background: #1e293b;
+            border-radius: 1rem;
+            padding: 1.2rem;
+            margin-bottom: 1.5rem;
+            border: 2px solid #334155;
+        }
+
+        .browser-status {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+
+        .status-icon {
+            font-size: 1.5rem;
+        }
+
+        .status-icon.success { color: #10b981; }
+        .status-icon.error { color: #ef4444; }
+        .status-icon.warning { color: #f59e0b; }
+
+        .fix-suggestion {
+            background: rgba(59,130,246,0.1);
             border-left: 3px solid #3b82f6;
-            padding-left: 12px;
+            padding: 1rem;
+            margin-top: 1rem;
+            border-radius: 0.5rem;
         }
 
         .dashboard {
             display: flex;
             flex-wrap: wrap;
             gap: 24px;
+            margin-top: 1rem;
         }
 
-        .left-panel {
+        .left-panel, .right-panel {
             flex: 1;
-            min-width: 300px;
+            min-width: 280px;
             background: rgba(15, 23, 42, 0.7);
             border-radius: 1.5rem;
             padding: 1.5rem;
-            backdrop-filter: blur(4px);
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .right-panel {
-            flex: 2;
-            min-width: 480px;
-            background: rgba(15, 23, 42, 0.5);
-            border-radius: 1.5rem;
-            padding: 1.2rem;
-            border: 1px solid rgba(255,255,255,0.1);
         }
 
         .card-title {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             font-weight: 600;
             color: #e2e8f0;
-            margin-bottom: 1.2rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            margin-bottom: 1rem;
             border-bottom: 1px solid #334155;
             padding-bottom: 8px;
         }
 
-        .alert-warning {
-            background: rgba(245, 158, 11, 0.2);
-            border-left: 4px solid #f59e0b;
-            padding: 1rem;
-            border-radius: 0.8rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .alert-warning h4 {
-            color: #fbbf24;
-            margin-bottom: 0.5rem;
-        }
-
-        .alert-warning p {
-            color: #d1d5db;
-            font-size: 0.85rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .outlook-login-card {
+        .outlook-card {
             background: linear-gradient(135deg, #0078d4 0%, #106ebe 100%);
             border-radius: 1rem;
-            padding: 1.8rem;
+            padding: 1.5rem;
             text-align: center;
-            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.2);
-        }
-
-        .outlook-login-card h3 {
-            color: white;
-            font-size: 1.4rem;
-            margin-bottom: 1rem;
-        }
-
-        .outlook-login-card p {
-            color: rgba(255,255,255,0.9);
-            margin-bottom: 1.5rem;
-            font-size: 0.9rem;
         }
 
         .btn-outlook {
@@ -140,186 +122,74 @@
             font-weight: 600;
             border-radius: 50px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-        }
-
-        .btn-outlook:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-        }
-
-        .info-box {
-            background: #0f172a;
-            border-radius: 0.8rem;
-            padding: 1rem;
             margin-top: 1rem;
-            border-left: 3px solid #3b82f6;
-        }
-
-        .info-box i {
-            color: #3b82f6;
-            margin-right: 8px;
         }
 
         .video-preview {
             background: #0a0f1c;
             border-radius: 1rem;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
             overflow: hidden;
-            border: 1px solid #334155;
         }
 
         .preview-header {
             background: #1e293b;
-            padding: 10px 16px;
-            font-size: 0.85rem;
-            color: #cbd5e1;
+            padding: 10px;
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #334155;
         }
 
         #recordingVideo {
             width: 100%;
             background: black;
-            display: block;
-            max-height: 340px;
-            object-fit: contain;
+            max-height: 300px;
         }
 
         .record-controls {
             display: flex;
             flex-wrap: wrap;
-            gap: 16px;
-            margin: 18px 0 20px 0;
-            align-items: center;
-        }
-
-        .size-selector {
-            background: #0f172a;
-            padding: 8px 15px;
-            border-radius: 60px;
-            display: flex;
             gap: 12px;
-            align-items: center;
-            flex-wrap: wrap;
+            margin: 15px 0;
         }
 
-        .size-selector label {
-            color: #cbd5e6;
-            font-size: 0.85rem;
-            font-weight: 500;
-        }
-
-        select, button {
+        button {
             background: #1e293b;
             border: 1px solid #475569;
             color: white;
-            padding: 8px 16px;
+            padding: 10px 20px;
             border-radius: 40px;
             cursor: pointer;
             font-weight: 500;
-            transition: 0.2s;
         }
 
-        select:hover, button:hover:not(:disabled) {
-            background: #2d3a5e;
-            border-color: #3b82f6;
-        }
-
-        .btn-primary {
-            background: #3b82f6;
-            border-color: #3b82f6;
-        }
-
-        .btn-primary:hover:not(:disabled) {
-            background: #2563eb;
-            transform: scale(1.02);
-        }
-
-        .btn-danger {
-            background: #dc2626;
-            border-color: #dc2626;
-        }
-
-        .btn-danger:hover:not(:disabled) {
-            background: #b91c1c;
-        }
-
-        .btn-success {
-            background: #10b981;
-            border-color: #10b981;
-        }
-
-        .btn-success:hover:not(:disabled) {
-            background: #059669;
-        }
+        .btn-primary { background: #3b82f6; }
+        .btn-danger { background: #dc2626; }
+        .btn-success { background: #10b981; }
 
         button:disabled {
             opacity: 0.5;
             cursor: not-allowed;
         }
 
-        .info-status {
-            background: #0f172a;
+        select {
+            background: #1e293b;
+            border: 1px solid #475569;
+            color: white;
+            padding: 8px 16px;
             border-radius: 40px;
-            padding: 8px 15px;
-            font-size: 0.8rem;
+        }
+
+        .info-text {
             color: #94a3b8;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
+            font-size: 0.85rem;
+            margin-top: 10px;
         }
 
-        .status-badge {
-            background: #334155;
-            border-radius: 30px;
-            padding: 5px 12px;
-            font-size: 0.75rem;
-        }
-
-        .download-area {
-            margin-top: 20px;
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-            align-items: center;
-        }
-
-        hr {
-            border-color: #334155;
-            margin: 15px 0;
-        }
-
-        .footer-note {
-            font-size: 0.7rem;
-            text-align: center;
-            margin-top: 1.5rem;
-            color: #5b6e8c;
-        }
-
-        i {
-            margin-right: 6px;
-        }
-
-        @media (max-width: 780px) {
-            .right-panel {
-                min-width: auto;
-            }
-            .dashboard {
-                flex-direction: column;
-            }
-        }
-
-        .compatibility-badge {
-            background: #10b981;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            display: inline-block;
-            margin-left: 10px;
+        .alternative-methods {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: #0f172a;
+            border-radius: 0.8rem;
         }
     </style>
 </head>
@@ -327,327 +197,198 @@
 
 <div class="app-container">
     <h1>
-        <i class="fab fa-microsoft"></i> 
-        Outlook Screen Recorder Pro
-        <span class="compatibility-badge"><i class="fas fa-check-circle"></i> HTTPS Required</span>
+        <i class="fab fa-microsoft"></i> Outlook Screen Recorder
+        <span id="browserBadge" class="compatibility-badge">Checking browser...</span>
     </h1>
-    <div class="sub">Sign in to Outlook • Record your screen • Export in multiple resolutions</div>
+
+    <!-- Browser Compatibility Check -->
+    <div class="browser-check" id="browserCheck">
+        <div class="browser-status">
+            <div class="status-icon" id="statusIcon"><i class="fas fa-spinner fa-pulse"></i></div>
+            <div>
+                <strong id="statusTitle">Checking browser compatibility...</strong>
+                <div id="statusMessage" class="info-text"></div>
+            </div>
+        </div>
+        <div id="fixSuggestions" style="display: none;" class="fix-suggestion"></div>
+    </div>
 
     <div class="dashboard">
-        <!-- LEFT PANEL: Outlook Sign-in -->
         <div class="left-panel">
-            <div class="card-title"><i class="fas fa-sign-in-alt"></i> Access Outlook Account</div>
-            
-            <!-- IMPORTANT WARNING -->
-            <div class="alert-warning" id="securityWarning">
-                <h4><i class="fas fa-exclamation-triangle"></i> Screen Recording Required</h4>
-                <p>Screen recording requires <strong>HTTPS or localhost</strong> for security reasons.</p>
-                <p><strong>Current URL:</strong> <span id="protocolDisplay" style="color: #fbbf24;"></span></p>
-                <p><strong>Solutions:</strong><br>
-                • Use <strong>https://</strong> (GitHub Pages, Netlify, Vercel)<br>
-                • Run locally on <strong>http://localhost:3000</strong><br>
-                • Use <strong>ngrok</strong> or similar tunneling service</p>
-            </div>
-
-            <div class="outlook-login-card">
-                <i class="fab fa-microsoft" style="font-size: 3rem; color: white; margin-bottom: 0.5rem; display: block;"></i>
-                <h3>Outlook Mail & Calendar</h3>
-                <p>Click below to open Outlook in a new tab and sign in securely</p>
-                <button id="openOutlookBtn" class="btn-outlook">
-                    <i class="fas fa-external-link-alt"></i> Open Outlook Login
+            <div class="card-title"><i class="fas fa-envelope"></i> Access Outlook</div>
+            <div class="outlook-card">
+                <i class="fab fa-microsoft" style="font-size: 2.5rem; color: white;"></i>
+                <h3 style="color: white; margin: 10px 0;">Outlook Mail</h3>
+                <p style="color: rgba(255,255,255,0.9);">Open Outlook in a new tab and sign in</p>
+                <button class="btn-outlook" id="openOutlookBtn">
+                    <i class="fas fa-external-link-alt"></i> Open Outlook
                 </button>
             </div>
-
-            <div class="info-box">
-                <i class="fas fa-info-circle"></i> 
-                <strong>How to use:</strong><br>
-                1. Click "Open Outlook Login" to sign into your account<br>
-                2. Switch back to this window and click "Start Recording"<br>
-                3. Choose to record the Outlook tab, entire screen, or specific window<br>
-                4. Select your desired output video size<br>
-                5. Stop recording and download your video
+            <div class="alternative-methods">
+                <strong><i class="fas fa-lightbulb"></i> Quick Tip:</strong>
+                <p class="info-text" style="margin-top: 8px;">After signing into Outlook, return here and start recording. Choose to record the Outlook tab when prompted.</p>
             </div>
         </div>
 
-        <!-- RIGHT PANEL: Recorder -->
         <div class="right-panel">
-            <div class="card-title"><i class="fas fa-video"></i> Screen Recorder Studio</div>
-
+            <div class="card-title"><i class="fas fa-video"></i> Screen Recorder</div>
+            
             <div class="video-preview">
                 <div class="preview-header">
-                    <span><i class="fas fa-eye"></i> Live Preview</span>
-                    <span id="recordingStatus" class="status-badge"><i class="fas fa-circle"></i> Not Recording</span>
+                    <span>Preview</span>
+                    <span id="recStatus">⚪ Not recording</span>
                 </div>
                 <video id="recordingVideo" autoplay muted playsinline></video>
             </div>
 
             <div class="record-controls">
-                <div class="size-selector">
-                    <label><i class="fas fa-expand-alt"></i> Output Size:</label>
-                    <select id="videoSizeSelect">
-                        <option value="640x480">VGA (640x480) 4:3</option>
-                        <option value="854x480">WVGA (854x480) 16:9</option>
-                        <option value="1280x720">HD (1280x720) 16:9</option>
-                        <option value="1920x1080" selected>Full HD (1920x1080) 16:9</option>
-                        <option value="2560x1440">2K QHD (2560x1440)</option>
-                        <option value="3840x2160">4K UHD (3840x2160)</option>
-                        <option value="custom">Custom (Enter dimensions)</option>
-                    </select>
-                </div>
-                <div>
-                    <button id="startRecordBtn" class="btn-primary"><i class="fas fa-record-vinyl"></i> Start Recording</button>
-                    <button id="stopRecordBtn" class="btn-danger" disabled><i class="fas fa-stop"></i> Stop Recording</button>
-                </div>
+                <select id="sizeSelect">
+                    <option value="1280x720">HD (1280x720)</option>
+                    <option value="1920x1080" selected>Full HD (1920x1080)</option>
+                    <option value="2560x1440">2K (2560x1440)</option>
+                    <option value="640x480">VGA (640x480)</option>
+                </select>
+                <button id="startBtn" class="btn-primary">Start Recording</button>
+                <button id="stopBtn" class="btn-danger" disabled>Stop</button>
+                <button id="downloadBtn" class="btn-success" disabled>Download</button>
             </div>
-            
-            <div class="download-area">
-                <button id="downloadVideoBtn" class="btn-success" disabled><i class="fas fa-download"></i> Download Video (WebM)</button>
-                <div class="info-status"><i class="fas fa-chalkboard-user"></i> Ready to record</div>
-            </div>
-            
-            <hr>
-            
-            <div style="font-size: 0.85rem; color: #cbd5e6;">
-                <i class="fas fa-shield-alt"></i> <strong>Privacy Note:</strong> All recording happens locally in your browser. No data is uploaded anywhere.
+
+            <div class="info-text">
+                <i class="fas fa-info-circle"></i> 
+                <strong>How to use:</strong> Click "Start Recording" → Choose "Share Entire Screen" or select the Outlook tab → Record → Stop → Download
             </div>
         </div>
     </div>
 </div>
 
 <script>
+    // Comprehensive browser detection and fallback
     (function() {
         // DOM elements
+        const startBtn = document.getElementById('startBtn');
+        const stopBtn = document.getElementById('stopBtn');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const sizeSelect = document.getElementById('sizeSelect');
         const videoPreview = document.getElementById('recordingVideo');
-        const startBtn = document.getElementById('startRecordBtn');
-        const stopBtn = document.getElementById('stopRecordBtn');
-        const downloadBtn = document.getElementById('downloadVideoBtn');
-        const sizeSelect = document.getElementById('videoSizeSelect');
-        const recordingStatusSpan = document.getElementById('recordingStatus');
-        const openOutlookBtn = document.getElementById('openOutlookBtn');
-        const protocolDisplay = document.getElementById('protocolDisplay');
-        
-        // Recording state
+        const recStatus = document.getElementById('recStatus');
+        const browserBadge = document.getElementById('browserBadge');
+        const statusIcon = document.getElementById('statusIcon');
+        const statusTitle = document.getElementById('statusTitle');
+        const statusMessage = document.getElementById('statusMessage');
+        const fixSuggestions = document.getElementById('fixSuggestions');
+
         let mediaStream = null;
         let mediaRecorder = null;
         let recordedChunks = [];
         let isRecording = false;
-        let finalRecordedBlob = null;
+        let finalBlob = null;
+
+        // Comprehensive API check
+        const hasGetDisplayMedia = !!navigator.mediaDevices && !!navigator.mediaDevices.getDisplayMedia;
+        const hasMediaRecorder = !!window.MediaRecorder;
         
-        // Check protocol and display warning
-        const currentProtocol = window.location.protocol;
-        const isSecure = currentProtocol === 'https:' || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+        // Browser detection
+        const isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+        const isEdge = /Edg/.test(navigator.userAgent);
+        const isFirefox = /Firefox/.test(navigator.userAgent);
+        const isSafari = /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent);
         
-        protocolDisplay.textContent = currentProtocol + '//' + window.location.host;
-        
-        if (!isSecure) {
-            protocolDisplay.style.color = '#ef4444';
-            const warningDiv = document.getElementById('securityWarning');
-            warningDiv.style.background = 'rgba(239, 68, 68, 0.2)';
-            warningDiv.style.borderLeftColor = '#ef4444';
-            startBtn.disabled = true;
-            startBtn.title = "Screen recording requires HTTPS or localhost";
-        } else {
-            const warningDiv = document.getElementById('securityWarning');
-            warningDiv.style.display = 'none';
-        }
-        
-        // Open Outlook
-        openOutlookBtn.addEventListener('click', () => {
-            window.open('https://outlook.live.com/', '_blank');
-            setTimeout(() => {
-                alert('Outlook opened in new tab. Please sign in, then return here to start recording.');
-            }, 500);
-        });
-        
-        function updateUIForRecording(recordingActive) {
-            if (recordingActive) {
-                startBtn.disabled = true;
-                stopBtn.disabled = false;
-                downloadBtn.disabled = true;
-                recordingStatusSpan.innerHTML = '<i class="fas fa-circle" style="color:#ef4444;"></i> 🔴 RECORDING';
-                recordingStatusSpan.style.background = '#450a0a';
+        let apiAvailable = hasGetDisplayMedia && hasMediaRecorder;
+
+        function updateBrowserStatus() {
+            if (hasGetDisplayMedia && hasMediaRecorder) {
+                browserBadge.textContent = '✅ Screen Capture Available';
+                browserBadge.classList.add('green');
+                statusIcon.innerHTML = '<i class="fas fa-check-circle success" style="font-size: 1.5rem;"></i>';
+                statusTitle.textContent = '✓ Browser is compatible!';
+                statusMessage.textContent = `Detected: ${navigator.userAgent.split(' ').pop()} - Screen recording is supported.`;
+                fixSuggestions.style.display = 'none';
+                startBtn.disabled = false;
             } else {
-                startBtn.disabled = !isSecure;
-                stopBtn.disabled = true;
-                recordingStatusSpan.innerHTML = '<i class="fas fa-circle"></i> ⚪ Not Recording';
-                recordingStatusSpan.style.background = '#334155';
-                downloadBtn.disabled = (finalRecordedBlob === null);
-            }
-        }
-        
-        // Resize video using canvas
-        async function resizeVideoBlob(blob, targetWidth, targetHeight) {
-            return new Promise((resolve, reject) => {
-                const video = document.createElement('video');
-                const canvas = document.createElement('canvas');
-                const ctx = canvas.getContext('2d');
+                browserBadge.textContent = '⚠️ Not Available';
+                browserBadge.classList.add('compatibility-badge');
+                statusIcon.innerHTML = '<i class="fas fa-exclamation-triangle warning" style="font-size: 1.5rem;"></i>';
+                statusTitle.textContent = '✗ Screen Recording Not Available';
                 
-                canvas.width = targetWidth;
-                canvas.height = targetHeight;
+                let message = '';
+                let fixes = [];
                 
-                video.preload = 'metadata';
-                video.src = URL.createObjectURL(blob);
-                video.muted = true;
-                video.playsInline = true;
-                
-                video.onloadedmetadata = () => {
-                    video.currentTime = 0;
-                    video.play().catch(e => console.log("Play error:", e));
-                    
-                    const stream = canvas.captureStream(30);
-                    const recorder = new MediaRecorder(stream, { 
-                        mimeType: 'video/webm',
-                        videoBitsPerSecond: 5000000
-                    });
-                    const resizedChunks = [];
-                    
-                    recorder.ondataavailable = (e) => {
-                        if (e.data.size > 0) resizedChunks.push(e.data);
-                    };
-                    
-                    recorder.onstop = () => {
-                        const finalBlob = new Blob(resizedChunks, { type: 'video/webm' });
-                        URL.revokeObjectURL(video.src);
-                        resolve(finalBlob);
-                    };
-                    
-                    recorder.start(100);
-                    
-                    const drawInterval = setInterval(() => {
-                        if (!video.paused && !video.ended && video.readyState >= 2) {
-                            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-                        }
-                        if (video.ended) {
-                            clearInterval(drawInterval);
-                            if (recorder.state !== 'inactive') {
-                                recorder.stop();
-                            }
-                        }
-                    }, 33);
-                    
-                    video.onended = () => {
-                        clearInterval(drawInterval);
-                    };
-                };
-                
-                video.onerror = (err) => {
-                    URL.revokeObjectURL(video.src);
-                    reject(err);
-                };
-            });
-        }
-        
-        async function processRecording(chunks) {
-            if (!chunks || chunks.length === 0) {
-                throw new Error("No recording data");
-            }
-            
-            const originalBlob = new Blob(chunks, { type: 'video/webm' });
-            
-            let width, height;
-            const sizeVal = sizeSelect.value;
-            
-            if (sizeVal === 'custom') {
-                const input = prompt("Enter custom dimensions (width x height):\nExample: 1920x1080", "1920x1080");
-                if (input && input.includes('x')) {
-                    const parts = input.split('x');
-                    width = parseInt(parts[0]);
-                    height = parseInt(parts[1]);
-                    if (isNaN(width) || isNaN(height) || width < 100 || height < 100) {
-                        width = 1920;
-                        height = 1080;
+                if (!hasGetDisplayMedia) {
+                    message += 'getDisplayMedia API not found. ';
+                    if (isSafari) {
+                        fixes.push('• Safari requires version 13+ for screen capture');
+                        fixes.push('• Go to Safari → Settings → Advanced → Enable "Screen Capture"');
+                        fixes.push('• Or try Chrome/Firefox instead');
+                    } else if (isFirefox) {
+                        fixes.push('• Firefox supports screen recording, check about:config for "media.getusermedia.screensharing.enabled"');
+                        fixes.push('• Update Firefox to latest version');
+                    } else if (isChrome || isEdge) {
+                        fixes.push('• Make sure you\'re using HTTPS (GitHub Pages uses HTTPS - this should work)');
+                        fixes.push('• Try disabling ad-blockers or privacy extensions');
+                        fixes.push('• Clear browser cache and reload the page');
+                    } else {
+                        fixes.push('• Use Google Chrome, Microsoft Edge, or Firefox');
+                        fixes.push('• Make sure you\'re on HTTPS connection');
                     }
-                } else {
-                    width = 1920;
-                    height = 1080;
                 }
-            } else {
-                const dims = sizeVal.split('x');
-                width = parseInt(dims[0]);
-                height = parseInt(dims[1]);
-            }
-            
-            width = Math.min(Math.max(width, 320), 7680);
-            height = Math.min(Math.max(height, 240), 4320);
-            
-            recordingStatusSpan.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Processing video...';
-            
-            try {
-                return await resizeVideoBlob(originalBlob, width, height);
-            } catch (err) {
-                console.error("Resize failed:", err);
-                alert("Resize failed, saving original recording.");
-                return originalBlob;
+                
+                if (!hasMediaRecorder) {
+                    message += 'MediaRecorder API not found. ';
+                    fixes.push('• Update your browser to latest version');
+                }
+                
+                statusMessage.textContent = message || 'Browser compatibility issue detected.';
+                fixSuggestions.innerHTML = '<strong>🔧 How to fix:</strong><br>' + fixes.join('<br>');
+                fixSuggestions.style.display = 'block';
+                startBtn.disabled = true;
+                startBtn.title = 'Screen recording not supported in this browser';
             }
         }
-        
-        async function finalizeRecording() {
-            if (recordedChunks.length === 0) {
-                updateUIForRecording(false);
-                return;
-            }
-            
-            try {
-                const processedBlob = await processRecording(recordedChunks);
-                finalRecordedBlob = processedBlob;
-                downloadBtn.disabled = false;
-                
-                const previewUrl = URL.createObjectURL(processedBlob);
-                videoPreview.src = previewUrl;
-                videoPreview.muted = false;
-                videoPreview.controls = true;
-                videoPreview.onloadeddata = () => {
-                    URL.revokeObjectURL(previewUrl);
-                };
-                
-                recordingStatusSpan.innerHTML = '<i class="fas fa-check-circle"></i> Ready to download';
-                setTimeout(() => {
-                    if (!isRecording) {
-                        recordingStatusSpan.innerHTML = '<i class="fas fa-circle"></i> Not Recording';
-                    }
-                }, 2000);
-            } catch (err) {
-                console.error("Finalize error:", err);
-                alert("Error processing recording: " + err.message);
-            }
-            
-            recordedChunks = [];
-            updateUIForRecording(false);
-        }
-        
-        async function startRecording() {
+
+        // Alternative: Try both APIs
+        async function startScreenRecording() {
             if (isRecording) {
-                alert("Recording already in progress");
+                alert('Recording already in progress');
                 return;
             }
-            
-            if (!isSecure) {
-                alert("Cannot start recording: Screen capture requires HTTPS or localhost.\n\nPlease use one of these methods:\n• Deploy to GitHub Pages (free)\n• Run local server: python -m http.server 8000\n• Use https://localhost");
+
+            if (!hasGetDisplayMedia) {
+                alert('Your browser does not support screen recording.\n\nPlease use Google Chrome, Microsoft Edge, or Firefox with HTTPS.');
                 return;
             }
-            
-            finalRecordedBlob = null;
-            downloadBtn.disabled = true;
-            recordedChunks = [];
-            videoPreview.controls = false;
-            
+
             try {
-                const displayStream = await navigator.mediaDevices.getDisplayMedia({
-                    video: {
-                        cursor: "always",
-                        frameRate: { ideal: 30 }
-                    },
-                    audio: false
-                });
+                // Try multiple constraints for better compatibility
+                let stream = null;
                 
-                mediaStream = displayStream;
-                videoPreview.srcObject = mediaStream;
-                videoPreview.muted = true;
+                try {
+                    stream = await navigator.mediaDevices.getDisplayMedia({
+                        video: {
+                            cursor: "always",
+                            displaySurface: "monitor"
+                        },
+                        audio: false,
+                        preferCurrentTab: true
+                    });
+                } catch (firstError) {
+                    // Fallback to simpler constraints
+                    console.log("First attempt failed, trying fallback:", firstError);
+                    stream = await navigator.mediaDevices.getDisplayMedia({
+                        video: true,
+                        audio: false
+                    });
+                }
                 
+                mediaStream = stream;
+                videoPreview.srcObject = stream;
+                
+                // Prepare recorder
+                recordedChunks = [];
                 const mimeType = MediaRecorder.isTypeSupported('video/webm') ? 'video/webm' : '';
-                mediaRecorder = new MediaRecorder(displayStream, {
+                
+                mediaRecorder = new MediaRecorder(stream, {
                     mimeType: mimeType || 'video/webm',
-                    videoBitsPerSecond: 5000000
+                    videoBitsPerSecond: 4000000
                 });
                 
                 mediaRecorder.ondataavailable = (event) => {
@@ -657,22 +398,54 @@
                 };
                 
                 mediaRecorder.onstop = async () => {
+                    // Process recording
+                    const originalBlob = new Blob(recordedChunks, { type: 'video/webm' });
+                    
+                    // Get selected dimensions
+                    const dimensions = sizeSelect.value.split('x');
+                    const targetWidth = parseInt(dimensions[0]);
+                    const targetHeight = parseInt(dimensions[1]);
+                    
+                    recStatus.innerHTML = '⏳ Processing video...';
+                    
+                    // Resize video
+                    try {
+                        finalBlob = await resizeVideo(originalBlob, targetWidth, targetHeight);
+                        downloadBtn.disabled = false;
+                        recStatus.innerHTML = '✅ Ready to download';
+                        
+                        // Preview the final video
+                        const url = URL.createObjectURL(finalBlob);
+                        videoPreview.src = url;
+                        videoPreview.muted = false;
+                        videoPreview.controls = true;
+                    } catch (err) {
+                        console.error("Resize error:", err);
+                        finalBlob = originalBlob;
+                        downloadBtn.disabled = false;
+                        recStatus.innerHTML = '✅ Recording saved (original size)';
+                    }
+                    
+                    // Cleanup
                     if (mediaStream) {
                         mediaStream.getTracks().forEach(track => track.stop());
                         mediaStream = null;
                     }
                     isRecording = false;
-                    await finalizeRecording();
-                    if (videoPreview.srcObject) {
-                        videoPreview.srcObject = null;
-                    }
+                    startBtn.disabled = false;
+                    stopBtn.disabled = true;
                 };
                 
                 mediaRecorder.start(1000);
                 isRecording = true;
-                updateUIForRecording(true);
+                startBtn.disabled = true;
+                stopBtn.disabled = false;
+                downloadBtn.disabled = true;
+                recStatus.innerHTML = '🔴 RECORDING...';
+                finalBlob = null;
                 
-                displayStream.getVideoTracks()[0].onended = () => {
+                // Handle user stopping via browser UI
+                stream.getVideoTracks()[0].onended = () => {
                     if (isRecording && mediaRecorder && mediaRecorder.state !== 'inactive') {
                         mediaRecorder.stop();
                     }
@@ -682,62 +455,109 @@
                 console.error("Screen capture error:", err);
                 let errorMsg = err.message;
                 if (err.name === 'NotAllowedError') {
-                    errorMsg = "Permission denied. Please allow screen sharing when prompted.";
+                    errorMsg = 'Permission denied. Please click "Allow" when prompted to share your screen.';
                 } else if (err.name === 'NotFoundError') {
-                    errorMsg = "No screen capture source found.";
+                    errorMsg = 'No screen source selected. Please choose a screen or window to share.';
+                } else if (err.name === 'NotSupportedError') {
+                    errorMsg = 'Screen capture not supported in this browser. Please use Chrome, Edge, or Firefox.';
                 }
-                alert("Screen capture failed: " + errorMsg);
-                updateUIForRecording(false);
-                if (mediaStream) {
-                    mediaStream.getTracks().forEach(t => t.stop());
-                    mediaStream = null;
-                }
+                alert('Recording failed: ' + errorMsg);
+                recStatus.innerHTML = '❌ Failed to start';
+                startBtn.disabled = false;
+                stopBtn.disabled = true;
             }
         }
         
+        // Resize video function
+        function resizeVideo(blob, targetWidth, targetHeight) {
+            return new Promise((resolve, reject) => {
+                const video = document.createElement('video');
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                
+                canvas.width = targetWidth;
+                canvas.height = targetHeight;
+                
+                video.src = URL.createObjectURL(blob);
+                video.muted = true;
+                
+                video.onloadedmetadata = () => {
+                    video.play();
+                    const stream = canvas.captureStream(30);
+                    const recorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
+                    const chunks = [];
+                    
+                    recorder.ondataavailable = (e) => {
+                        if (e.data.size > 0) chunks.push(e.data);
+                    };
+                    
+                    recorder.onstop = () => {
+                        const finalBlob = new Blob(chunks, { type: 'video/webm' });
+                        URL.revokeObjectURL(video.src);
+                        resolve(finalBlob);
+                    };
+                    
+                    recorder.start(100);
+                    
+                    const interval = setInterval(() => {
+                        if (!video.paused && !video.ended && video.readyState >= 2) {
+                            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                        }
+                        if (video.ended) {
+                            clearInterval(interval);
+                            recorder.stop();
+                        }
+                    }, 33);
+                    
+                    video.onended = () => clearInterval(interval);
+                };
+                
+                video.onerror = (err) => reject(err);
+            });
+        }
+        
         function stopRecording() {
-            if (!isRecording) {
-                alert("No active recording to stop");
-                return;
-            }
-            
             if (mediaRecorder && mediaRecorder.state !== 'inactive') {
                 mediaRecorder.stop();
-            } else {
-                if (mediaStream) {
-                    mediaStream.getTracks().forEach(t => t.stop());
-                }
-                isRecording = false;
-                updateUIForRecording(false);
-                if (recordedChunks.length) {
-                    finalizeRecording();
-                }
             }
         }
         
         function downloadVideo() {
-            if (!finalRecordedBlob) {
-                alert("No video to download. Please record something first.");
+            if (!finalBlob) {
+                alert('No video to download. Please record something first.');
                 return;
             }
             
-            const url = URL.createObjectURL(finalRecordedBlob);
+            const url = URL.createObjectURL(finalBlob);
             const a = document.createElement('a');
             a.href = url;
-            const sizeLabel = sizeSelect.value === 'custom' ? 'custom' : sizeSelect.value;
-            a.download = `outlook_recording_${sizeLabel}_${new Date().toISOString().slice(0,19).replace(/:/g, '-')}.webm`;
+            a.download = `outlook_recording_${sizeSelect.value}_${Date.now()}.webm`;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
         }
         
+        // Open Outlook
+        document.getElementById('openOutlookBtn').addEventListener('click', () => {
+            window.open('https://outlook.live.com/', '_blank');
+        });
+        
         // Event listeners
-        startBtn.addEventListener('click', startRecording);
+        startBtn.addEventListener('click', startScreenRecording);
         stopBtn.addEventListener('click', stopRecording);
         downloadBtn.addEventListener('click', downloadVideo);
         
-        updateUIForRecording(false);
+        // Initial check
+        updateBrowserStatus();
+        
+        console.log("Browser Info:", {
+            userAgent: navigator.userAgent,
+            hasGetDisplayMedia: hasGetDisplayMedia,
+            hasMediaRecorder: hasMediaRecorder,
+            isSecure: location.protocol === 'https:',
+            isChrome, isFirefox, isSafari, isEdge
+        });
     })();
 </script>
 </body>
