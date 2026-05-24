@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Outlook Screen Recorder | Sign In & Record Professional</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Outlook Screen Recorder | Professional Recording Tool</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * {
@@ -92,6 +92,25 @@
             padding-bottom: 8px;
         }
 
+        .alert-warning {
+            background: rgba(245, 158, 11, 0.2);
+            border-left: 4px solid #f59e0b;
+            padding: 1rem;
+            border-radius: 0.8rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .alert-warning h4 {
+            color: #fbbf24;
+            margin-bottom: 0.5rem;
+        }
+
+        .alert-warning p {
+            color: #d1d5db;
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+        }
+
         .outlook-login-card {
             background: linear-gradient(135deg, #0078d4 0%, #106ebe 100%);
             border-radius: 1rem;
@@ -128,11 +147,6 @@
         .btn-outlook:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-            background: #f0f0f0;
-        }
-
-        .btn-outlook i {
-            margin-right: 8px;
         }
 
         .info-box {
@@ -210,7 +224,7 @@
             transition: 0.2s;
         }
 
-        select:hover, button:hover {
+        select:hover, button:hover:not(:disabled) {
             background: #2d3a5e;
             border-color: #3b82f6;
         }
@@ -218,11 +232,9 @@
         .btn-primary {
             background: #3b82f6;
             border-color: #3b82f6;
-            color: white;
-            box-shadow: 0 2px 6px rgba(59,130,246,0.3);
         }
 
-        .btn-primary:hover {
+        .btn-primary:hover:not(:disabled) {
             background: #2563eb;
             transform: scale(1.02);
         }
@@ -232,7 +244,7 @@
             border-color: #dc2626;
         }
 
-        .btn-danger:hover {
+        .btn-danger:hover:not(:disabled) {
             background: #b91c1c;
         }
 
@@ -241,14 +253,13 @@
             border-color: #10b981;
         }
 
-        .btn-success:hover {
+        .btn-success:hover:not(:disabled) {
             background: #059669;
         }
 
         button:disabled {
             opacity: 0.5;
             cursor: not-allowed;
-            transform: none;
         }
 
         .info-status {
@@ -302,26 +313,42 @@
             }
         }
 
-        .recording-tip {
-            background: rgba(59,130,246,0.1);
-            border-radius: 0.8rem;
-            padding: 0.8rem;
-            margin-top: 1rem;
-            font-size: 0.85rem;
+        .compatibility-badge {
+            background: #10b981;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            display: inline-block;
+            margin-left: 10px;
         }
     </style>
 </head>
 <body>
 
 <div class="app-container">
-    <h1><i class="fab fa-microsoft"></i> Outlook Screen Recorder Pro</h1>
+    <h1>
+        <i class="fab fa-microsoft"></i> 
+        Outlook Screen Recorder Pro
+        <span class="compatibility-badge"><i class="fas fa-check-circle"></i> HTTPS Required</span>
+    </h1>
     <div class="sub">Sign in to Outlook • Record your screen • Export in multiple resolutions</div>
 
     <div class="dashboard">
-        <!-- LEFT PANEL: Outlook Sign-in Instructions & Launch -->
+        <!-- LEFT PANEL: Outlook Sign-in -->
         <div class="left-panel">
             <div class="card-title"><i class="fas fa-sign-in-alt"></i> Access Outlook Account</div>
             
+            <!-- IMPORTANT WARNING -->
+            <div class="alert-warning" id="securityWarning">
+                <h4><i class="fas fa-exclamation-triangle"></i> Screen Recording Required</h4>
+                <p>Screen recording requires <strong>HTTPS or localhost</strong> for security reasons.</p>
+                <p><strong>Current URL:</strong> <span id="protocolDisplay" style="color: #fbbf24;"></span></p>
+                <p><strong>Solutions:</strong><br>
+                • Use <strong>https://</strong> (GitHub Pages, Netlify, Vercel)<br>
+                • Run locally on <strong>http://localhost:3000</strong><br>
+                • Use <strong>ngrok</strong> or similar tunneling service</p>
+            </div>
+
             <div class="outlook-login-card">
                 <i class="fab fa-microsoft" style="font-size: 3rem; color: white; margin-bottom: 0.5rem; display: block;"></i>
                 <h3>Outlook Mail & Calendar</h3>
@@ -336,20 +363,13 @@
                 <strong>How to use:</strong><br>
                 1. Click "Open Outlook Login" to sign into your account<br>
                 2. Switch back to this window and click "Start Recording"<br>
-                3. Choose to record the Outlook tab, entire screen, or a specific window<br>
-                4. Select your desired output video size before or after recording<br>
+                3. Choose to record the Outlook tab, entire screen, or specific window<br>
+                4. Select your desired output video size<br>
                 5. Stop recording and download your video
-            </div>
-
-            <div class="recording-tip">
-                <i class="fas fa-lightbulb"></i> <strong>Pro Tips:</strong><br>
-                • For best quality, select "Full HD (1920x1080)" output size<br>
-                • Choose "Entire Screen" when recording to capture Outlook fully<br>
-                • Custom size allows you to set any resolution (e.g., 2560x1440)
             </div>
         </div>
 
-        <!-- RIGHT PANEL: Recorder & Video Options -->
+        <!-- RIGHT PANEL: Recorder -->
         <div class="right-panel">
             <div class="card-title"><i class="fas fa-video"></i> Screen Recorder Studio</div>
 
@@ -382,17 +402,13 @@
             
             <div class="download-area">
                 <button id="downloadVideoBtn" class="btn-success" disabled><i class="fas fa-download"></i> Download Video (WebM)</button>
-                <div class="info-status"><i class="fas fa-chalkboard-user"></i> Recording session ready</div>
+                <div class="info-status"><i class="fas fa-chalkboard-user"></i> Ready to record</div>
             </div>
             
             <hr>
             
             <div style="font-size: 0.85rem; color: #cbd5e6;">
                 <i class="fas fa-shield-alt"></i> <strong>Privacy Note:</strong> All recording happens locally in your browser. No data is uploaded anywhere.
-            </div>
-            
-            <div class="footer-note">
-                <i class="fab fa-html5"></i> Built with MediaRecorder API • Output video will be resized to your selected dimensions • WebM format supported in all modern browsers
             </div>
         </div>
     </div>
@@ -408,6 +424,7 @@
         const sizeSelect = document.getElementById('videoSizeSelect');
         const recordingStatusSpan = document.getElementById('recordingStatus');
         const openOutlookBtn = document.getElementById('openOutlookBtn');
+        const protocolDisplay = document.getElementById('protocolDisplay');
         
         // Recording state
         let mediaStream = null;
@@ -416,12 +433,29 @@
         let isRecording = false;
         let finalRecordedBlob = null;
         
-        // Open Outlook in new tab (bypasses iframe restrictions)
+        // Check protocol and display warning
+        const currentProtocol = window.location.protocol;
+        const isSecure = currentProtocol === 'https:' || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+        
+        protocolDisplay.textContent = currentProtocol + '//' + window.location.host;
+        
+        if (!isSecure) {
+            protocolDisplay.style.color = '#ef4444';
+            const warningDiv = document.getElementById('securityWarning');
+            warningDiv.style.background = 'rgba(239, 68, 68, 0.2)';
+            warningDiv.style.borderLeftColor = '#ef4444';
+            startBtn.disabled = true;
+            startBtn.title = "Screen recording requires HTTPS or localhost";
+        } else {
+            const warningDiv = document.getElementById('securityWarning');
+            warningDiv.style.display = 'none';
+        }
+        
+        // Open Outlook
         openOutlookBtn.addEventListener('click', () => {
             window.open('https://outlook.live.com/', '_blank');
-            // Also provide alternative if needed
             setTimeout(() => {
-                alert('Outlook opened in new tab. Please sign in, then return here to start recording your session.');
+                alert('Outlook opened in new tab. Please sign in, then return here to start recording.');
             }, 500);
         });
         
@@ -430,10 +464,10 @@
                 startBtn.disabled = true;
                 stopBtn.disabled = false;
                 downloadBtn.disabled = true;
-                recordingStatusSpan.innerHTML = '<i class="fas fa-circle" style="color:#ef4444;"></i> 🔴 RECORDING ACTIVE';
+                recordingStatusSpan.innerHTML = '<i class="fas fa-circle" style="color:#ef4444;"></i> 🔴 RECORDING';
                 recordingStatusSpan.style.background = '#450a0a';
             } else {
-                startBtn.disabled = false;
+                startBtn.disabled = !isSecure;
                 stopBtn.disabled = true;
                 recordingStatusSpan.innerHTML = '<i class="fas fa-circle"></i> ⚪ Not Recording';
                 recordingStatusSpan.style.background = '#334155';
@@ -441,7 +475,7 @@
             }
         }
         
-        // Resize video using canvas stream method
+        // Resize video using canvas
         async function resizeVideoBlob(blob, targetWidth, targetHeight) {
             return new Promise((resolve, reject) => {
                 const video = document.createElement('video');
@@ -458,7 +492,7 @@
                 
                 video.onloadedmetadata = () => {
                     video.currentTime = 0;
-                    video.play();
+                    video.play().catch(e => console.log("Play error:", e));
                     
                     const stream = canvas.captureStream(30);
                     const recorder = new MediaRecorder(stream, { 
@@ -483,7 +517,7 @@
                         if (!video.paused && !video.ended && video.readyState >= 2) {
                             ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
                         }
-                        if (video.ended || video.currentTime >= video.duration - 0.1) {
+                        if (video.ended) {
                             clearInterval(drawInterval);
                             if (recorder.state !== 'inactive') {
                                 recorder.stop();
@@ -493,15 +527,6 @@
                     
                     video.onended = () => {
                         clearInterval(drawInterval);
-                        if (recorder.state !== 'inactive') {
-                            recorder.stop();
-                        }
-                    };
-                    
-                    video.onerror = (err) => {
-                        clearInterval(drawInterval);
-                        URL.revokeObjectURL(video.src);
-                        reject(err);
                     };
                 };
                 
@@ -531,7 +556,6 @@
                     if (isNaN(width) || isNaN(height) || width < 100 || height < 100) {
                         width = 1920;
                         height = 1080;
-                        alert("Invalid dimensions, using 1920x1080");
                     }
                 } else {
                     width = 1920;
@@ -543,15 +567,13 @@
                 height = parseInt(dims[1]);
             }
             
-            // Clamp reasonable values
             width = Math.min(Math.max(width, 320), 7680);
             height = Math.min(Math.max(height, 240), 4320);
             
-            recordingStatusSpan.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Processing video resize...';
+            recordingStatusSpan.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Processing video...';
             
             try {
-                const resized = await resizeVideoBlob(originalBlob, width, height);
-                return resized;
+                return await resizeVideoBlob(originalBlob, width, height);
             } catch (err) {
                 console.error("Resize failed:", err);
                 alert("Resize failed, saving original recording.");
@@ -570,7 +592,6 @@
                 finalRecordedBlob = processedBlob;
                 downloadBtn.disabled = false;
                 
-                // Preview the processed video
                 const previewUrl = URL.createObjectURL(processedBlob);
                 videoPreview.src = previewUrl;
                 videoPreview.muted = false;
@@ -587,8 +608,7 @@
                 }, 2000);
             } catch (err) {
                 console.error("Finalize error:", err);
-                alert("Error processing recording");
-                recordingStatusSpan.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Error';
+                alert("Error processing recording: " + err.message);
             }
             
             recordedChunks = [];
@@ -598,6 +618,11 @@
         async function startRecording() {
             if (isRecording) {
                 alert("Recording already in progress");
+                return;
+            }
+            
+            if (!isSecure) {
+                alert("Cannot start recording: Screen capture requires HTTPS or localhost.\n\nPlease use one of these methods:\n• Deploy to GitHub Pages (free)\n• Run local server: python -m http.server 8000\n• Use https://localhost");
                 return;
             }
             
@@ -647,7 +672,6 @@
                 isRecording = true;
                 updateUIForRecording(true);
                 
-                // Handle stop from browser UI
                 displayStream.getVideoTracks()[0].onended = () => {
                     if (isRecording && mediaRecorder && mediaRecorder.state !== 'inactive') {
                         mediaRecorder.stop();
@@ -656,7 +680,13 @@
                 
             } catch (err) {
                 console.error("Screen capture error:", err);
-                alert("Screen capture failed: " + err.message + "\n\nPlease ensure you grant permission when prompted.");
+                let errorMsg = err.message;
+                if (err.name === 'NotAllowedError') {
+                    errorMsg = "Permission denied. Please allow screen sharing when prompted.";
+                } else if (err.name === 'NotFoundError') {
+                    errorMsg = "No screen capture source found.";
+                }
+                alert("Screen capture failed: " + errorMsg);
                 updateUIForRecording(false);
                 if (mediaStream) {
                     mediaStream.getTracks().forEach(t => t.stop());
@@ -708,7 +738,6 @@
         downloadBtn.addEventListener('click', downloadVideo);
         
         updateUIForRecording(false);
-        console.log("Ready: Open Outlook in new tab, sign in, then record your screen!");
     })();
 </script>
 </body>
