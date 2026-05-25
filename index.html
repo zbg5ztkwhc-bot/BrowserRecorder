@@ -3,715 +3,196 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Teams Meeting Recorder | Record Microsoft Teams with Multiple Sizes</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Teams Meeting Recorder - Desktop Only</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
         body {
             background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        .app-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            background: rgba(255,255,255,0.08);
-            border-radius: 2rem;
-            padding: 1.8rem;
-            box-shadow: 0 20px 35px -10px rgba(0,0,0,0.4);
-        }
-
-        h1 {
-            font-size: 1.8rem;
-            font-weight: 600;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 40px 20px;
             color: white;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            flex-wrap: wrap;
-            margin-bottom: 0.5rem;
-        }
-
-        .teams-badge {
-            background: #4B53BC;
-            padding: 5px 15px;
-            border-radius: 30px;
-            font-size: 0.8rem;
-        }
-
-        .sub {
-            color: #94a3b8;
-            margin-bottom: 2rem;
-            border-left: 3px solid #4B53BC;
-            padding-left: 12px;
-        }
-
-        .dashboard {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 24px;
-        }
-
-        .left-panel {
-            flex: 1;
-            min-width: 300px;
-            background: rgba(15, 23, 42, 0.7);
-            border-radius: 1.5rem;
-            padding: 1.5rem;
-            backdrop-filter: blur(4px);
-        }
-
-        .right-panel {
-            flex: 2;
-            min-width: 500px;
-            background: rgba(15, 23, 42, 0.5);
-            border-radius: 1.5rem;
-            padding: 1.5rem;
-        }
-
-        .card-title {
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: #e2e8f0;
-            margin-bottom: 1.2rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            border-bottom: 1px solid #334155;
-            padding-bottom: 8px;
-        }
-
-        .teams-login-card {
-            background: linear-gradient(135deg, #4B53BC 0%, #2B5797 100%);
-            border-radius: 1rem;
-            padding: 1.8rem;
             text-align: center;
         }
-
-        .teams-login-card h3 {
-            color: white;
-            font-size: 1.4rem;
-            margin: 1rem 0;
-        }
-
-        .btn-teams {
-            background: white;
-            color: #4B53BC;
-            border: none;
-            padding: 12px 28px;
-            font-size: 1rem;
-            font-weight: 600;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin: 0 5px;
-        }
-
-        .btn-teams:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-        }
-
-        .video-preview {
-            background: #0a0f1c;
-            border-radius: 1rem;
-            margin-bottom: 1.5rem;
-            overflow: hidden;
-            border: 1px solid #334155;
-        }
-
-        .preview-header {
-            background: #1e293b;
-            padding: 10px 16px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #334155;
-        }
-
-        #recordingVideo {
-            width: 100%;
-            background: black;
-            display: block;
-            max-height: 350px;
-            object-fit: contain;
-        }
-
-        .controls-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin: 20px 0;
-            align-items: center;
-        }
-
-        .size-selector {
-            background: #0f172a;
-            padding: 8px 15px;
-            border-radius: 60px;
-            display: flex;
-            gap: 12px;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
-        select, button {
-            background: #1e293b;
-            border: 1px solid #475569;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 40px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: 0.2s;
-        }
-
-        select:hover, button:hover:not(:disabled) {
-            background: #2d3a5e;
-            border-color: #4B53BC;
-        }
-
-        .btn-primary { background: #4B53BC; border-color: #4B53BC; }
-        .btn-danger { background: #dc2626; border-color: #dc2626; }
-        .btn-success { background: #10b981; border-color: #10b981; }
-        .btn-warning { background: #f59e0b; border-color: #f59e0b; }
-
-        button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        .status-badge {
-            background: #334155;
-            border-radius: 30px;
-            padding: 5px 12px;
-            font-size: 0.8rem;
-        }
-
-        .info-box {
-            background: #0f172a;
-            border-radius: 0.8rem;
-            padding: 1rem;
-            margin-top: 1rem;
-            border-left: 3px solid #4B53BC;
-        }
-
-        .recording-tip {
-            background: rgba(75, 83, 188, 0.1);
-            border-radius: 0.8rem;
-            padding: 1rem;
-            margin-top: 1rem;
-        }
-
-        .format-buttons {
-            display: flex;
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        .quality-preset {
-            display: inline-block;
-            padding: 4px 12px;
-            background: #1e293b;
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.1);
             border-radius: 20px;
-            cursor: pointer;
-            font-size: 0.8rem;
-            margin: 5px 5px 0 0;
+            padding: 30px;
         }
-
-        .quality-preset:hover {
+        h1 { color: #4B53BC; }
+        .error-box {
+            background: rgba(220, 38, 38, 0.2);
+            border: 2px solid #dc2626;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .success-box {
+            background: rgba(16, 185, 129, 0.2);
+            border: 2px solid #10b981;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        button {
             background: #4B53BC;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-size: 16px;
+            margin: 10px;
+            cursor: pointer;
         }
-
-        @media (max-width: 768px) {
-            .right-panel {
-                min-width: auto;
-            }
-            .controls-group {
-                flex-direction: column;
-                align-items: stretch;
-            }
+        .mobile-warning {
+            background: #f59e0b;
+            color: #000;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        @media (min-width: 768px) {
+            .mobile-warning { display: none; }
         }
     </style>
 </head>
 <body>
+    <div class="container">
+        <h1>📹 Teams Meeting Recorder</h1>
+        
+        <div class="mobile-warning">
+            ⚠️ <strong>MOBILE DEVICE DETECTED</strong><br><br>
+            Screen recording is NOT supported on mobile browsers.<br><br>
+            <strong>Please use a Windows PC or Mac computer with Chrome/Edge/Firefox.</strong><br><br>
+            📱 <strong>Mobile alternative:</strong> Use your phone's built-in screen recorder (Control Center/Quick Settings)
+        </div>
 
-<div class="app-container">
-    <h1>
-        <i class="fab fa-microsoft"></i> 
-        Microsoft Teams Meeting Recorder
-        <span class="teams-badge"><i class="fas fa-video"></i> Professional Edition</span>
-    </h1>
-    <div class="sub">
-        <i class="fas fa-info-circle"></i> 
-        Sign into Teams, start recording, capture meetings in multiple resolutions (720p, 1080p, 2K, 4K)
-    </div>
-
-    <div class="dashboard">
-        <!-- LEFT PANEL: Teams Access -->
-        <div class="left-panel">
-            <div class="card-title"><i class="fas fa-comments"></i> Access Teams</div>
+        <div id="desktopContent" style="display: none;">
+            <div class="success-box">
+                ✅ <strong>Desktop detected! You can record Teams.</strong>
+            </div>
             
-            <div class="teams-login-card">
-                <i class="fab fa-microsoft" style="font-size: 3rem; color: white;"></i>
-                <h3>Microsoft Teams</h3>
-                <p style="color: rgba(255,255,255,0.9); margin-bottom: 1rem;">
-                    Open Teams web app or desktop app
-                </p>
-                <button id="openTeamsWebBtn" class="btn-teams">
-                    <i class="fas fa-globe"></i> Teams Web App
-                </button>
-                <button id="openTeamsDesktopBtn" class="btn-teams">
-                    <i class="fas fa-desktop"></i> Desktop App (Launch)
-                </button>
+            <button onclick="window.open('https://teams.microsoft.com/', '_blank')">
+                📞 Open Microsoft Teams
+            </button>
+            
+            <button id="startRecord">
+                🎥 Start Recording
+            </button>
+            <button id="stopRecord" disabled>
+                ⏹️ Stop Recording
+            </button>
+            <button id="download" disabled>
+                💾 Download Video
+            </button>
+            
+            <div style="margin-top: 20px;">
+                <label>Output Size: </label>
+                <select id="sizeSelect">
+                    <option value="1280x720">720p HD</option>
+                    <option value="1920x1080" selected>1080p Full HD</option>
+                </select>
             </div>
-
-            <div class="info-box">
-                <i class="fas fa-lightbulb"></i> 
-                <strong>Recording Workflow:</strong>
-                <ol style="margin-left: 20px; margin-top: 8px; line-height: 1.6;">
-                    <li>Click "Teams Web App" to open Teams in new tab</li>
-                    <li>Sign in and join your meeting</li>
-                    <li>Return here and click "Start Recording"</li>
-                    <li>Select the Teams tab/window to record</li>
-                    <li>Choose output resolution (adjustable during recording)</li>
-                    <li>Stop and download your recording</li>
-                </ol>
-            </div>
-
-            <div class="recording-tip">
-                <i class="fas fa-microphone-alt"></i> 
-                <strong>Audio Note:</strong> System audio (meeting sound) is included when you select "Share system audio" during screen capture setup.
-            </div>
-        </div>
-
-        <!-- RIGHT PANEL: Recorder -->
-        <div class="right-panel">
-            <div class="card-title"><i class="fas fa-record-vinyl"></i> Recording Studio</div>
-
-            <div class="video-preview">
-                <div class="preview-header">
-                    <span><i class="fas fa-eye"></i> Live Preview</span>
-                    <span id="recordingStatus" class="status-badge">
-                        <i class="fas fa-circle"></i> Not Recording
-                    </span>
-                </div>
-                <video id="recordingVideo" autoplay muted playsinline></video>
-            </div>
-
-            <!-- Resolution Presets -->
-            <div class="size-selector" style="margin-bottom: 15px; justify-content: space-between;">
-                <span><i class="fas fa-expand-alt"></i> Output Resolution:</span>
-                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                    <span class="quality-preset" data-width="640" data-height="480">480p</span>
-                    <span class="quality-preset" data-width="854" data-height="480">WVGA</span>
-                    <span class="quality-preset" data-width="1280" data-height="720">720p HD</span>
-                    <span class="quality-preset active-preset" data-width="1920" data-height="1080">1080p Full HD</span>
-                    <span class="quality-preset" data-width="2560" data-height="1440">2K QHD</span>
-                    <span class="quality-preset" data-width="3840" data-height="2160">4K UHD</span>
-                </div>
-            </div>
-
-            <select id="videoSizeSelect" style="width: 100%; margin-bottom: 15px;">
-                <option value="854x480">WVGA (854x480) - Small file</option>
-                <option value="1280x720">HD (1280x720) - Good quality</option>
-                <option value="1920x1080" selected>Full HD (1920x1080) - Best balance</option>
-                <option value="2560x1440">2K (2560x1440) - High quality</option>
-                <option value="3840x2160">4K (3840x2160) - Maximum quality</option>
-                <option value="custom">Custom Resolution</option>
-            </select>
-
-            <div class="controls-group">
-                <button id="startRecordBtn" class="btn-primary">
-                    <i class="fas fa-play"></i> Start Recording
-                </button>
-                <button id="stopRecordBtn" class="btn-danger" disabled>
-                    <i class="fas fa-stop"></i> Stop Recording
-                </button>
-                <button id="downloadVideoBtn" class="btn-success" disabled>
-                    <i class="fas fa-download"></i> Download Video
-                </button>
-            </div>
-
-            <div class="controls-group">
-                <button id="includeAudioBtn" class="btn-warning" style="background: #4B53BC;">
-                    <i class="fas fa-microphone"></i> Include System Audio
-                </button>
-                <span class="status-badge" id="audioStatus">
-                    <i class="fas fa-volume-mute"></i> Audio: Off
-                </span>
-            </div>
-
-            <div class="info-box" style="background: rgba(75, 83, 188, 0.2);">
-                <i class="fas fa-chalkboard-teacher"></i> 
-                <strong>For Teams Recording:</strong>
-                <ul style="margin-left: 20px; margin-top: 5px;">
-                    <li>When prompted, choose "Share Entire Screen" or select the Teams tab</li>
-                    <li>Check "Share system audio" to capture meeting audio</li>
-                    <li>The recording includes both video and audio from Teams</li>
-                    <li>Output video will be resized to your selected resolution</li>
-                </ul>
+            
+            <div id="status" style="margin-top: 20px; padding: 10px; background: #1e293b; border-radius: 10px;">
+                Status: Ready
             </div>
         </div>
     </div>
-</div>
 
-<script>
-    (function() {
-        // DOM Elements
-        const videoPreview = document.getElementById('recordingVideo');
-        const startBtn = document.getElementById('startRecordBtn');
-        const stopBtn = document.getElementById('stopRecordBtn');
-        const downloadBtn = document.getElementById('downloadVideoBtn');
-        const sizeSelect = document.getElementById('videoSizeSelect');
-        const recordingStatusSpan = document.getElementById('recordingStatus');
-        const includeAudioBtn = document.getElementById('includeAudioBtn');
-        const audioStatusSpan = document.getElementById('audioStatus');
+    <script>
+        // Detect if desktop
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        const isDesktop = !isMobile;
         
-        // Open Teams buttons
-        const openTeamsWeb = document.getElementById('openTeamsWebBtn');
-        const openTeamsDesktop = document.getElementById('openTeamsDesktopBtn');
-        
-        // Recording state
-        let mediaStream = null;
-        let mediaRecorder = null;
-        let recordedChunks = [];
-        let isRecording = false;
-        let finalRecordedBlob = null;
-        let includeAudio = false;
-        
-        // Open Teams Web
-        openTeamsWeb.addEventListener('click', () => {
-            window.open('https://teams.microsoft.com/', '_blank');
-            setTimeout(() => {
-                alert('Teams opened in new tab.\n\n1. Sign in with your Microsoft account\n2. Join your meeting\n3. Return here to start recording', 500);
-            });
-        });
-        
-        openTeamsDesktop.addEventListener('click', () => {
-            alert('Launch Microsoft Teams desktop app from your Start Menu / Applications folder.\n\nThen return here to start screen recording.');
-        });
-        
-        // Resolution presets
-        document.querySelectorAll('.quality-preset').forEach(preset => {
-            preset.addEventListener('click', () => {
-                document.querySelectorAll('.quality-preset').forEach(p => p.classList.remove('active-preset'));
-                preset.classList.add('active-preset');
-                const width = preset.dataset.width;
-                const height = preset.dataset.height;
-                sizeSelect.value = `${width}x${height}`;
-            });
-        });
-        
-        // Audio toggle
-        includeAudioBtn.addEventListener('click', () => {
-            includeAudio = !includeAudio;
-            if (includeAudio) {
-                audioStatusSpan.innerHTML = '<i class="fas fa-microphone"></i> Audio: ON (System)';
-                audioStatusSpan.style.background = '#10b981';
-                includeAudioBtn.style.background = '#10b981';
-            } else {
-                audioStatusSpan.innerHTML = '<i class="fas fa-volume-mute"></i> Audio: Off';
-                audioStatusSpan.style.background = '#334155';
-                includeAudioBtn.style.background = '#4B53BC';
-            }
-        });
-        
-        function updateUIForRecording(recordingActive) {
-            if (recordingActive) {
-                startBtn.disabled = true;
-                stopBtn.disabled = false;
-                downloadBtn.disabled = true;
-                recordingStatusSpan.innerHTML = '<i class="fas fa-circle" style="color:#ef4444;"></i> 🔴 RECORDING - Teams Session';
-                recordingStatusSpan.style.background = '#7f1d1d';
-            } else {
-                startBtn.disabled = false;
-                stopBtn.disabled = true;
-                recordingStatusSpan.innerHTML = '<i class="fas fa-circle"></i> ⚪ Ready to Record Teams';
-                recordingStatusSpan.style.background = '#334155';
-                downloadBtn.disabled = (finalRecordedBlob === null);
-            }
+        if (isDesktop && !/Mobile/.test(navigator.userAgent)) {
+            document.getElementById('desktopContent').style.display = 'block';
+            initRecorder();
+        } else {
+            // Show mobile warning - the desktop content stays hidden
+            console.log("Mobile device detected");
         }
         
-        // Resize video using canvas
-        async function resizeVideoBlob(blob, targetWidth, targetHeight) {
-            return new Promise((resolve, reject) => {
-                const video = document.createElement('video');
-                const canvas = document.createElement('canvas');
-                const ctx = canvas.getContext('2d');
+        function initRecorder() {
+            let mediaStream = null;
+            let mediaRecorder = null;
+            let chunks = [];
+            let isRecording = false;
+            let finalBlob = null;
+            
+            const startBtn = document.getElementById('startRecord');
+            const stopBtn = document.getElementById('stopRecord');
+            const downloadBtn = document.getElementById('download');
+            const sizeSelect = document.getElementById('sizeSelect');
+            const statusDiv = document.getElementById('status');
+            
+            startBtn.onclick = async () => {
+                if (!navigator.mediaDevices || !navigator.mediaDevices.getDisplayMedia) {
+                    statusDiv.innerHTML = '❌ Screen recording not supported in this browser. Use Chrome/Edge/Firefox.';
+                    return;
+                }
                 
-                canvas.width = targetWidth;
-                canvas.height = targetHeight;
-                
-                video.preload = 'metadata';
-                video.src = URL.createObjectURL(blob);
-                video.muted = true;
-                video.playsInline = true;
-                
-                video.onloadedmetadata = () => {
-                    video.currentTime = 0;
-                    video.play().catch(e => console.log("Play:", e));
-                    
-                    const stream = canvas.captureStream(30);
-                    const recorder = new MediaRecorder(stream, { 
-                        mimeType: 'video/webm',
-                        videoBitsPerSecond: 8000000
+                try {
+                    const stream = await navigator.mediaDevices.getDisplayMedia({
+                        video: { cursor: "always", frameRate: 30 },
+                        audio: true
                     });
-                    const resizedChunks = [];
                     
-                    recorder.ondataavailable = (e) => {
-                        if (e.data.size > 0) resizedChunks.push(e.data);
+                    mediaStream = stream;
+                    chunks = [];
+                    mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
+                    
+                    mediaRecorder.ondataavailable = (e) => {
+                        if (e.data.size > 0) chunks.push(e.data);
                     };
                     
-                    recorder.onstop = () => {
-                        const finalBlob = new Blob(resizedChunks, { type: 'video/webm' });
-                        URL.revokeObjectURL(video.src);
-                        resolve(finalBlob);
+                    mediaRecorder.onstop = () => {
+                        finalBlob = new Blob(chunks, { type: 'video/webm' });
+                        downloadBtn.disabled = false;
+                        statusDiv.innerHTML = '✅ Recording complete! Ready to download.';
+                        stream.getTracks().forEach(t => t.stop());
+                        isRecording = false;
+                        startBtn.disabled = false;
+                        stopBtn.disabled = true;
                     };
                     
-                    recorder.start(100);
+                    mediaRecorder.start(1000);
+                    isRecording = true;
+                    startBtn.disabled = true;
+                    stopBtn.disabled = false;
+                    downloadBtn.disabled = true;
+                    statusDiv.innerHTML = '🔴 RECORDING Teams meeting...';
                     
-                    const drawInterval = setInterval(() => {
-                        if (!video.paused && !video.ended && video.readyState >= 2) {
-                            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                    stream.getVideoTracks()[0].onended = () => {
+                        if (isRecording && mediaRecorder.state !== 'inactive') {
+                            mediaRecorder.stop();
                         }
-                        if (video.ended || video.currentTime >= video.duration - 0.1) {
-                            clearInterval(drawInterval);
-                            if (recorder.state !== 'inactive') recorder.stop();
-                        }
-                    }, 33);
-                    
-                    video.onended = () => {
-                        clearInterval(drawInterval);
                     };
-                };
-                
-                video.onerror = (err) => {
-                    URL.revokeObjectURL(video.src);
-                    reject(err);
-                };
-            });
-        }
-        
-        async function processRecording(chunks) {
-            if (!chunks || chunks.length === 0) {
-                throw new Error("No recording data");
-            }
-            
-            const originalBlob = new Blob(chunks, { type: 'video/webm' });
-            
-            let width, height;
-            const sizeVal = sizeSelect.value;
-            
-            if (sizeVal === 'custom') {
-                const input = prompt("Enter custom dimensions (width x height):\nExample: 1920x1080", "1920x1080");
-                if (input && input.includes('x')) {
-                    const parts = input.split('x');
-                    width = parseInt(parts[0]);
-                    height = parseInt(parts[1]);
-                    if (isNaN(width) || isNaN(height) || width < 100 || height < 100) {
-                        width = 1920;
-                        height = 1080;
-                    }
-                } else {
-                    width = 1920;
-                    height = 1080;
+                    
+                } catch (err) {
+                    statusDiv.innerHTML = '❌ Error: ' + err.message;
+                    console.error(err);
                 }
-            } else {
-                const dims = sizeVal.split('x');
-                width = parseInt(dims[0]);
-                height = parseInt(dims[1]);
-            }
+            };
             
-            width = Math.min(Math.max(width, 320), 7680);
-            height = Math.min(Math.max(height, 240), 4320);
-            
-            recordingStatusSpan.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Processing Teams recording...';
-            
-            try {
-                return await resizeVideoBlob(originalBlob, width, height);
-            } catch (err) {
-                console.error("Resize failed:", err);
-                alert("Resize failed, saving original recording.");
-                return originalBlob;
-            }
-        }
-        
-        async function finalizeRecording() {
-            if (recordedChunks.length === 0) {
-                updateUIForRecording(false);
-                return;
-            }
-            
-            try {
-                const processedBlob = await processRecording(recordedChunks);
-                finalRecordedBlob = processedBlob;
-                downloadBtn.disabled = false;
-                
-                const previewUrl = URL.createObjectURL(processedBlob);
-                videoPreview.src = previewUrl;
-                videoPreview.muted = false;
-                videoPreview.controls = true;
-                videoPreview.onloadeddata = () => {
-                    URL.revokeObjectURL(previewUrl);
-                };
-                
-                recordingStatusSpan.innerHTML = '<i class="fas fa-check-circle"></i> Teams recording ready!';
-                setTimeout(() => {
-                    if (!isRecording) {
-                        recordingStatusSpan.innerHTML = '<i class="fas fa-circle"></i> Ready to Record Teams';
-                    }
-                }, 2000);
-            } catch (err) {
-                console.error("Finalize error:", err);
-                alert("Error processing recording: " + err.message);
-            }
-            
-            recordedChunks = [];
-            updateUIForRecording(false);
-        }
-        
-        async function startRecording() {
-            if (isRecording) {
-                alert("Recording already in progress");
-                return;
-            }
-            
-            // Check API support
-            if (!navigator.mediaDevices || !navigator.mediaDevices.getDisplayMedia) {
-                alert("Screen recording not supported.\n\nPlease use Chrome, Edge, or Firefox on desktop.\n\nMake sure you're on HTTPS (GitHub Pages uses HTTPS).");
-                return;
-            }
-            
-            finalRecordedBlob = null;
-            downloadBtn.disabled = true;
-            recordedChunks = [];
-            videoPreview.controls = false;
-            
-            try {
-                const displayConstraints = {
-                    video: {
-                        cursor: "always",
-                        frameRate: { ideal: 30 }
-                    }
-                };
-                
-                if (includeAudio) {
-                    displayConstraints.audio = true;
-                }
-                
-                const displayStream = await navigator.mediaDevices.getDisplayMedia(displayConstraints);
-                
-                mediaStream = displayStream;
-                videoPreview.srcObject = mediaStream;
-                videoPreview.muted = true;
-                
-                const mimeType = MediaRecorder.isTypeSupported('video/webm') ? 'video/webm' : '';
-                mediaRecorder = new MediaRecorder(displayStream, {
-                    mimeType: mimeType || 'video/webm',
-                    videoBitsPerSecond: 8000000
-                });
-                
-                mediaRecorder.ondataavailable = (event) => {
-                    if (event.data && event.data.size > 0) {
-                        recordedChunks.push(event.data);
-                    }
-                };
-                
-                mediaRecorder.onstop = async () => {
-                    if (mediaStream) {
-                        mediaStream.getTracks().forEach(track => track.stop());
-                        mediaStream = null;
-                    }
+            stopBtn.onclick = () => {
+                if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+                    mediaRecorder.stop();
                     isRecording = false;
-                    await finalizeRecording();
-                    if (videoPreview.srcObject) {
-                        videoPreview.srcObject = null;
-                    }
-                };
-                
-                mediaRecorder.start(1000);
-                isRecording = true;
-                updateUIForRecording(true);
-                
-                displayStream.getVideoTracks()[0].onended = () => {
-                    if (isRecording && mediaRecorder && mediaRecorder.state !== 'inactive') {
-                        mediaRecorder.stop();
-                    }
-                };
-                
-            } catch (err) {
-                console.error("Screen capture error:", err);
-                let errorMsg = err.message;
-                if (err.name === 'NotAllowedError') {
-                    errorMsg = "Permission denied. Please allow screen sharing when prompted.";
-                } else if (err.name === 'NotFoundError') {
-                    errorMsg = "No screen source selected. Please choose a screen or window to share.";
                 }
-                alert("Recording failed: " + errorMsg);
-                updateUIForRecording(false);
-                if (mediaStream) {
-                    mediaStream.getTracks().forEach(t => t.stop());
-                    mediaStream = null;
-                }
-            }
-        }
-        
-        function stopRecording() {
-            if (!isRecording) {
-                alert("No active recording to stop");
-                return;
-            }
+            };
             
-            if (mediaRecorder && mediaRecorder.state !== 'inactive') {
-                mediaRecorder.stop();
-            } else {
-                if (mediaStream) {
-                    mediaStream.getTracks().forEach(t => t.stop());
-                }
-                isRecording = false;
-                updateUIForRecording(false);
-                if (recordedChunks.length) {
-                    finalizeRecording();
-                }
-            }
+            downloadBtn.onclick = () => {
+                if (!finalBlob) return;
+                const url = URL.createObjectURL(finalBlob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `teams_recording_${sizeSelect.value}_${Date.now()}.webm`;
+                a.click();
+                URL.revokeObjectURL(url);
+                statusDiv.innerHTML = '📥 Download started!';
+            };
         }
-        
-        function downloadVideo() {
-            if (!finalRecordedBlob) {
-                alert("No video to download. Please record a Teams session first.");
-                return;
-            }
-            
-            const url = URL.createObjectURL(finalRecordedBlob);
-            const a = document.createElement('a');
-            a.href = url;
-            const resolution = sizeSelect.value === 'custom' ? 'custom' : sizeSelect.value;
-            a.download = `teams_meeting_${resolution}_${new Date().toISOString().slice(0,19).replace(/:/g, '-')}.webm`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-            
-            alert("✅ Teams meeting recording saved!\n\nFile format: WebM\nLocation: Your Downloads folder");
-        }
-        
-        // Event listeners
-        startBtn.addEventListener('click', startRecording);
-        stopBtn.addEventListener('click', stopRecording);
-        downloadBtn.addEventListener('click', downloadVideo);
-        
-        updateUIForRecording(false);
-        
-        console.log("Teams Recorder Ready - Use Chrome/Edge/Firefox on desktop");
-    })();
-</script>
+    </script>
 </body>
 </html>
